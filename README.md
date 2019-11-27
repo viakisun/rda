@@ -12,7 +12,8 @@ More details: http://pjreddie.com/darknet/yolo/
 2.  Alturos Yolo (Windows)
     * Marking
     * Detecting
-
+![Detect](https://github.com/viakisun/rda/blob/master/Tools/Alturos/TestUI.png)
+    
 ### Pre-trained models
 1.  Fire blight data
     * fireblight.cfg - bird, blight
@@ -20,8 +21,9 @@ More details: http://pjreddie.com/darknet/yolo/
     * hd150.weight - trained 1-150
 
 ### Best trained model
-![Training chart](https://github.com/viakisun/rda/blob/master/Datas/HD250/2.%20weight/chart.png)
+1.  Training result
     * mAP(mean Average Precision) = 98.4
+![Training chart](https://github.com/viakisun/rda/blob/master/Datas/HD250/2.%20weight/chart.png)
 
 ### Done
 1.  Training system (RTX2080, Ubuntu)
