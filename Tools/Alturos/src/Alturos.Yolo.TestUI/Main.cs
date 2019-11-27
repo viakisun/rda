@@ -22,6 +22,7 @@ namespace Alturos.Yolo.TestUI
         public Main()
         {
             this.InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
 
             this.buttonSendImage.Enabled = false;
 
