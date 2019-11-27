@@ -7,7 +7,8 @@ More details: http://pjreddie.com/darknet/yolo/
 1.  Darknet (Windows/Ubuntu)
     * Training
     * Marking
-    * Detecting 
+    * Detecting
+    
 2.  Alturos Yolo (Windows)
     * Marking
     * Detecting
@@ -17,6 +18,10 @@ More details: http://pjreddie.com/darknet/yolo/
     * fireblight.cfg - bird, blight
     * hd250.weight - trained 1-250
     * hd150.weight - trained 1-150
+
+### Best trained model
+![Training chart](https://github.com/viakisun/rda/blob/master/Datas/HD250/2.%20weight/chart.png)
+    * mAP(mean Average Precision) = 98.4
 
 ### Done
 1.  Training system (RTX2080, Ubuntu)
