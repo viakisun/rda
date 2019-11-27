@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -49,6 +49,7 @@
             this.comboBox_name = new System.Windows.Forms.ComboBox();
             this.comboBox_weight = new System.Windows.Forms.ComboBox();
             this.label_status = new System.Windows.Forms.Label();
+            this.checkBox_auto = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFiles)).BeginInit();
@@ -81,7 +82,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 1215);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(3, 0, 42, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(2359, 54);
+            this.statusStrip1.Size = new System.Drawing.Size(2547, 54);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -97,7 +98,7 @@
             this.buttonSendImage.BackColor = System.Drawing.Color.DarkGoldenrod;
             this.buttonSendImage.Font = new System.Drawing.Font("Arial", 9.900001F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSendImage.ForeColor = System.Drawing.Color.White;
-            this.buttonSendImage.Location = new System.Drawing.Point(1983, 14);
+            this.buttonSendImage.Location = new System.Drawing.Point(2171, 14);
             this.buttonSendImage.Margin = new System.Windows.Forms.Padding(9, 7, 9, 7);
             this.buttonSendImage.Name = "buttonSendImage";
             this.buttonSendImage.Size = new System.Drawing.Size(363, 77);
@@ -135,8 +136,8 @@
             // ColumnHeight
             // 
             this.ColumnHeight.DataPropertyName = "Height";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ColumnHeight.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ColumnHeight.DefaultCellStyle = dataGridViewCellStyle4;
             this.ColumnHeight.HeaderText = "Height";
             this.ColumnHeight.MinimumWidth = 12;
             this.ColumnHeight.Name = "ColumnHeight";
@@ -146,8 +147,8 @@
             // ColumnWidth
             // 
             this.ColumnWidth.DataPropertyName = "Width";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ColumnWidth.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ColumnWidth.DefaultCellStyle = dataGridViewCellStyle3;
             this.ColumnWidth.HeaderText = "Width";
             this.ColumnWidth.MinimumWidth = 12;
             this.ColumnWidth.Name = "ColumnWidth";
@@ -169,7 +170,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(20, 20);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(9, 7, 9, 7);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1700, 1075);
+            this.pictureBox1.Size = new System.Drawing.Size(1888, 1075);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
@@ -177,6 +178,7 @@
             // panel_top
             // 
             this.panel_top.BackColor = System.Drawing.Color.Black;
+            this.panel_top.Controls.Add(this.checkBox_auto);
             this.panel_top.Controls.Add(this.label_status);
             this.panel_top.Controls.Add(this.comboBox_weight);
             this.panel_top.Controls.Add(this.comboBox_name);
@@ -186,14 +188,14 @@
             this.panel_top.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panel_top.Location = new System.Drawing.Point(0, 0);
             this.panel_top.Name = "panel_top";
-            this.panel_top.Size = new System.Drawing.Size(2359, 100);
+            this.panel_top.Size = new System.Drawing.Size(2547, 100);
             this.panel_top.TabIndex = 7;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.dataGridViewFiles);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(1740, 100);
+            this.panel1.Location = new System.Drawing.Point(1928, 100);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(619, 1115);
             this.panel1.TabIndex = 8;
@@ -206,7 +208,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 100);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(20);
-            this.panel2.Size = new System.Drawing.Size(1740, 1115);
+            this.panel2.Size = new System.Drawing.Size(1928, 1115);
             this.panel2.TabIndex = 9;
             // 
             // comboBox_cfg
@@ -253,11 +255,23 @@
             this.label_status.TabIndex = 4;
             this.label_status.Text = "Initialize...";
             // 
+            // checkBox_auto
+            // 
+            this.checkBox_auto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox_auto.AutoSize = true;
+            this.checkBox_auto.ForeColor = System.Drawing.Color.White;
+            this.checkBox_auto.Location = new System.Drawing.Point(1923, 38);
+            this.checkBox_auto.Name = "checkBox_auto";
+            this.checkBox_auto.Size = new System.Drawing.Size(236, 34);
+            this.checkBox_auto.TabIndex = 5;
+            this.checkBox_auto.Text = "Auto process";
+            this.checkBox_auto.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(18F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2359, 1269);
+            this.ClientSize = new System.Drawing.Size(2547, 1269);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel_top);
@@ -299,6 +313,7 @@
         private System.Windows.Forms.ComboBox comboBox_weight;
         private System.Windows.Forms.ComboBox comboBox_name;
         private System.Windows.Forms.Label label_status;
+        private System.Windows.Forms.CheckBox checkBox_auto;
     }
 }
 
