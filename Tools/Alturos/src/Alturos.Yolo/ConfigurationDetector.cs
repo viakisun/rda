@@ -25,7 +25,7 @@ namespace Alturos.Yolo
             throw new FileNotFoundException("Cannot found pre-trained model, check all config files available (.cfg, .weights, .names)");
         }
 
-        private string[] GetYoloFiles(string path)
+        public string[] GetYoloFiles(string path)
         {
             return Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly).Where(o => o.EndsWith(".names") || o.EndsWith(".cfg") || o.EndsWith(".weights")).ToArray();
         }

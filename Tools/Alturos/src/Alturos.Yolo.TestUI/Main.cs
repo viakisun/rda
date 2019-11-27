@@ -16,18 +16,19 @@ namespace Alturos.Yolo.TestUI
     {
         private YoloWrapper _yoloWrapper;
 
+        FontStyle _fontStyle = FontStyle.Bold;
+        private Font _font;
+
         public Main()
         {
             this.InitializeComponent();
 
             this.buttonSendImage.Enabled = false;
-            this.menuStrip1.Visible = false;
 
             this.toolStripStatusLabelYoloInfo.Text = string.Empty;
 
-            this.Text = $"Alturos Yolo TestUI {Application.ProductVersion}";
+            this.Text = $"RDA Fireblight detection {Application.ProductVersion}";
             this.dataGridViewFiles.AutoGenerateColumns = false;
-            this.dataGridViewResult.AutoGenerateColumns = false;
 
             var imageInfos = new DirectoryImageReader().Analyze(@".\Images");
             this.dataGridViewFiles.DataSource = imageInfos.ToList();
@@ -56,14 +57,12 @@ namespace Alturos.Yolo.TestUI
                 return;
             }
 
-            this.menuStrip1.Visible = true;
 
             foreach (var config in configs)
             {
                 var menuItem = new ToolStripMenuItem();
                 menuItem.Text = config;
                 menuItem.Click += (object sender, EventArgs e) => { this.Initialize(config); };
-                this.configurationToolStripMenuItem.DropDownItems.Add(menuItem);
             }
         }
 
@@ -79,9 +78,6 @@ namespace Alturos.Yolo.TestUI
             var imageInfo = this.GetCurrentImage();           
             this.pictureBox1.Image = Image.FromFile(imageInfo.Path);            
             oldImage?.Dispose();
-
-            this.dataGridViewResult.DataSource = null;
-            this.groupBoxResult.Text = $"Result";
         }
 
         private void dataGridViewFiles_KeyDown(object sender, KeyEventArgs e)
@@ -94,14 +90,7 @@ namespace Alturos.Yolo.TestUI
 
         private void dataGridViewResult_SelectionChanged(object sender, EventArgs e)
         {
-            if (!this.dataGridViewResult.Focused)
-            {
-                return;
-            }
-
-            var items = this.dataGridViewResult.DataSource as List<YoloItem>;
-            var selectedItem = this.dataGridViewResult.CurrentRow?.DataBoundItem as YoloItem;
-            this.DrawBorder2Image(items, selectedItem);
+            
         }
 
         private void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -146,6 +135,11 @@ namespace Alturos.Yolo.TestUI
                             canvas.FillRectangle(overlayBrush, x, y, width, height);
                         }
 
+                        string conf_value = Math.Floor(item.Confidence * 100).ToString() + "%";
+                        System.Drawing.SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
+                        float emSize = 20 * image.Height / 600.0f;
+                        _font = new Font("Arial", emSize, _fontStyle);
+                        canvas.DrawString(conf_value, _font, drawBrush, x + 10, y + 18);
                         canvas.DrawRectangle(pen, x, y, width, height);
                         canvas.Flush();
                     }
@@ -175,18 +169,45 @@ namespace Alturos.Yolo.TestUI
 
         private void Initialize(string path)
         {
-            var configurationDetector = new ConfigurationDetector();
-            var config = configurationDetector.Detect(path);
+            string[] files_name = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly).Where(o => o.EndsWith(".names")).ToArray();
+            string[] files_cfg = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly).Where(o => o.EndsWith(".cfg")).ToArray();
+            string[] files_weights = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly).Where(o => o.EndsWith(".weights")).ToArray();
 
-            if (config == null)
+            if (files_name.Length == 0)
             {
+                MessageBox.Show("Cannot find name file");
+                Application.Exit();
                 return;
             }
 
-            this.Initialize(config);
+            if (files_cfg.Length == 0)
+            {
+                MessageBox.Show("Cannot find cfg file");
+                Application.Exit();
+                return;
+            }
+
+            if (files_weights.Length == 0)
+            {
+                MessageBox.Show("Cannot find weights file");
+                Application.Exit();
+            }
+            comboBox_name.Items.Clear();
+            comboBox_name.Items.AddRange(files_name);
+            comboBox_name.SelectedIndex = 0;
+
+            comboBox_cfg.Items.Clear();
+            comboBox_cfg.Items.AddRange(files_cfg);
+            comboBox_cfg.SelectedIndex = 0;
+
+            comboBox_weight.Items.Clear();
+            comboBox_weight.Items.AddRange(files_weights);
+            comboBox_weight.SelectedIndex = 0;
+
+            InitializeYolo();
         }
 
-        private void Initialize(YoloConfiguration config)
+        private void InitializeYolo()
         {
             try
             {
@@ -195,11 +216,10 @@ namespace Alturos.Yolo.TestUI
                     this._yoloWrapper.Dispose();
                 }
 
-                var useOnlyCpu = this.cpuToolStripMenuItem.Checked;
-
                 var sw = new Stopwatch();
                 sw.Start();
-                this._yoloWrapper = new YoloWrapper(config.ConfigFile, config.WeightsFile, config.NamesFile, 0, useOnlyCpu);
+                this._yoloWrapper = new YoloWrapper(comboBox_cfg.SelectedItem.ToString(),
+                    comboBox_weight.SelectedItem.ToString(), comboBox_name.SelectedItem.ToString(), 0);
                 sw.Stop();
 
                 var action = new MethodInvoker(delegate ()
@@ -209,11 +229,13 @@ namespace Alturos.Yolo.TestUI
                     {
                         detectionSystemDetail = $"({this._yoloWrapper.EnvironmentReport.GraphicDeviceName})";
                     }
-                    this.toolStripStatusLabelYoloInfo.Text = $"Initialize Yolo in {sw.Elapsed.TotalMilliseconds:0} ms - Detection System:{this._yoloWrapper.DetectionSystem} {detectionSystemDetail} Weights:{config.WeightsFile}";
+                    this.toolStripStatusLabelYoloInfo.Text = $"Initialize Yolo in {sw.Elapsed.TotalMilliseconds:0} ms - Detection System:{this._yoloWrapper.DetectionSystem} {detectionSystemDetail}";
                 });
 
                 this.statusStrip1.Invoke(action);
                 this.buttonSendImage.Invoke(new MethodInvoker(delegate () { this.buttonSendImage.Enabled = true; }));
+                this.label_status.Invoke(new MethodInvoker(delegate () { this.label_status.Text = "Ready to detect!"; }));
+                this.panel_top.Invoke(new MethodInvoker(delegate () { this.panel_top.BackColor = Color.DarkOliveGreen; }));
             }
             catch (Exception exception)
             {
@@ -245,15 +267,12 @@ namespace Alturos.Yolo.TestUI
                 items = this._yoloWrapper.Detect(imageInfo.Path).ToList();
             }
             sw.Stop();
-            this.groupBoxResult.Text = $"Result [ processed in {sw.Elapsed.TotalMilliseconds:0} ms ]";
-
-            this.dataGridViewResult.DataSource = items;
             this.DrawBorder2Image(items);
         }
 
         private void gpuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.cpuToolStripMenuItem.Checked = !this.cpuToolStripMenuItem.Checked;
+            
         }
     }
 }
